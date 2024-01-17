@@ -1,6 +1,5 @@
 import 'package:devaloop_login_page/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 
 class AppLoginPage extends StatelessWidget {
@@ -17,17 +16,24 @@ class AppLoginPage extends StatelessWidget {
       appName: 'Clean Architecture',
       appTagline: 'Build App With Clean Architecture',
       loginForm: Center(
-        child: SizedBox(
-          width: 290,
-          child: GoogleSignInButton(
-            clientId: '',
-            loadingIndicator: const CircularProgressIndicator(),
-            onSignedIn: (UserCredential credential) {},
-            onError: (exception) {},
-            onCanceled: () {},
-          ),
+        child: FilledButton(
+          onPressed: () async {
+            await signInWithGoogle();
+          },
+          child: const Text('Login'),
         ),
       ),
     );
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+    googleProvider
+        .addScope('https://www.googleapis.com/auth/contacts.readonly');
+    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+    googleProvider.setCustomParameters({'prompt': 'select_account'});
+
+    return await FirebaseAuth.instance.signInWithPopup(googleProvider);
   }
 }

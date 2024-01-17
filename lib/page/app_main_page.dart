@@ -1,8 +1,6 @@
 import 'package:devaloop_main_page/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AppMainPage extends StatefulWidget {
   const AppMainPage({super.key});
@@ -100,8 +98,7 @@ class _AppMainPageState extends State<AppMainPage> {
                     _isLoggingOut = true;
                   });
 
-                  await FirebaseAuth.instance.signOut();
-                  await GoogleSignIn().signOut();
+                  await signOut();
                 }
               }
             },
@@ -118,5 +115,9 @@ class _AppMainPageState extends State<AppMainPage> {
               ),
             ],
           );
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

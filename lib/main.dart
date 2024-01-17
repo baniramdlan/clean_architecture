@@ -1,23 +1,15 @@
 import 'package:clean_architecture/page/app_login_page.dart';
 import 'package:clean_architecture/page/app_main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  FirebaseUIAuth.configureProviders([
-    GoogleProvider(
-      clientId:
-          '886553073935-ih248s7kr1vnvvnqrcts17loljmj88u3.apps.googleusercontent.com',
-    ),
-  ]);
 
   runApp(const MyApp());
 }
