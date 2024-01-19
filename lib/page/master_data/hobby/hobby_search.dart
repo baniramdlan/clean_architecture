@@ -1,5 +1,7 @@
 import 'package:clean_architecture/model/cloud_firestore/default/data_adaptor.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/hobby.dart';
+import 'package:clean_architecture/page/master_data/hobby/hobby_add.dart';
+import 'package:clean_architecture/page/master_data/hobby/hobby_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devaloop_form_builder/form_builder.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +54,18 @@ class _HobbySearchState extends State<HobbySearch> {
                   child: Text(''),
                 ),
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    var result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HobbyAdd()),
+                    );
+                    if (!mounted) return;
+                    if (result != null) {
+                      setState(() {
+                        setSearchResultInitial();
+                      });
+                    }
+                  },
                   icon: const Icon(Icons.add),
                   label: const Text('Add'),
                 ),
@@ -182,7 +195,24 @@ class _HobbySearchState extends State<HobbySearch> {
                                             'Last Update: ${docs[index].value.lastUpdated}'),
                                       ],
                                     ),
-                                    onTap: () {},
+                                    onTap: () async {
+                                      var result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HobbyDetail(
+                                            mapDoc: docs[index],
+                                          ),
+                                        ),
+                                      );
+
+                                      if (!mounted) return;
+
+                                      if (result != null) {
+                                        setState(() {
+                                          setSearchResultInitial();
+                                        });
+                                      }
+                                    },
                                   );
                                 },
                                 separatorBuilder: (context, index) =>
