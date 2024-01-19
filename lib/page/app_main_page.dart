@@ -1,3 +1,4 @@
+import 'package:clean_architecture/page/master_data/master_data_menu.dart';
 import 'package:devaloop_main_page/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -104,14 +105,14 @@ class _AppMainPageState extends State<AppMainPage> {
             },
             mainMenus: const [
               MainMenu(
-                text: 'Member',
-                icon: Icon(Icons.people),
-                content: Text('Content for Member'),
+                text: 'Home',
+                icon: Icon(Icons.home),
+                content: Text('Welcome to Clean Architecture'),
               ),
               MainMenu(
-                text: 'Hobbies',
-                icon: Icon(Icons.spoke),
-                content: Text('Content for Hobbies'),
+                text: 'Master Data',
+                icon: Icon(Icons.dataset),
+                content: MasterDataMenu(),
               ),
             ],
           );

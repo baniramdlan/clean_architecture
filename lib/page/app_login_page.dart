@@ -31,8 +31,10 @@ class AppLoginPage extends StatelessWidget {
 
     googleProvider
         .addScope('https://www.googleapis.com/auth/contacts.readonly');
-    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
-    googleProvider.setCustomParameters({'prompt': 'select_account'});
+    googleProvider.setCustomParameters({
+      'login_hint': 'user@example.com',
+      'prompt': 'select_account',
+    });
 
     return await FirebaseAuth.instance.signInWithPopup(googleProvider);
   }
