@@ -11,6 +11,7 @@ class HobbyAdd extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Hobby'),
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(7.5),
