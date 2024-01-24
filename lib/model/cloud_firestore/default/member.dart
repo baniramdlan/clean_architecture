@@ -56,13 +56,13 @@ class Member {
                   MemberEthnic.values.firstWhere((e) => e.toString() == a))
               .toList()
           : [],
-      ethnicMate: data?['ethnic'] == null
+      ethnicMate: data?['ethnicMate'] == null
           ? null
           : MemberEthnic.values
-              .firstWhere((e) => e.toString() == data?['ethnic']),
-      parentalEthnicGroupsMate: data?['parentalEthnicGroups'] == null
+              .firstWhere((e) => e.toString() == data?['ethnicMate']),
+      parentalEthnicGroupsMate: data?['parentalEthnicGroupsMate'] == null
           ? null
-          : data?['parentalEthnicGroups'] is Iterable
+          : data?['parentalEthnicGroupsMate'] is Iterable
               ? List.from(data?['parentalEthnicGroups'])
                   .map((a) =>
                       MemberEthnic.values.firstWhere((e) => e.toString() == a))

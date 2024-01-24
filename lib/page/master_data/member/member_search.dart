@@ -1,4 +1,5 @@
 import 'package:clean_architecture/model/cloud_firestore/default/data_adaptor.dart';
+import 'package:clean_architecture/model/cloud_firestore/default/hobby.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/member.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devaloop_form_builder/form_builder.dart';
@@ -181,17 +182,214 @@ class _MemberSearchState extends State<MemberSearch> {
                                       runSpacing: 7.5,
                                       spacing: 7.5,
                                       children: [
-                                        Text('Name: ${docs[index].value.name}'),
-                                        Text(
-                                            'Email: ${docs[index].value.email}'),
-                                        Text(
-                                            'Birth Date: ${docs[index].value.birthDate}'),
-                                        Text(
-                                            'Gender: ${docs[index].value.gender.value}'),
-                                        Text(
-                                            'Ethnic: ${docs[index].value.ethnic.value}'),
-                                        Text(
-                                            'Parental Ethnic Groups: ${docs[index].value.parentalEthnicGroups.map((e) => e.value).toList().join(', ')}'),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Name: ${docs[index].value.name}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Email: ${docs[index].value.email}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Birth Date: ${docs[index].value.birthDate}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Gender: ${docs[index].value.gender.value}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Ethnic: ${docs[index].value.ethnic.value}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Parental Ethnic Groups: ${docs[index].value.parentalEthnicGroups.map((e) => e.value).toList().join(', ')}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Ethnic Mate: ${docs[index].value.ethnicMate?.value ?? ''}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Parental Ethnic Groups Mate: ${(docs[index].value.parentalEthnicGroupsMate ?? []).map((e) => e.value).toList().join(', ')}'),
+                                          ),
+                                        ),
+                                        FutureBuilder(
+                                          future:
+                                              Future<DocumentSnapshot<Hobby>>(
+                                            () async {
+                                              return await docs[index]
+                                                  .value
+                                                  .mostFavoriteHobby
+                                                  .get();
+                                            },
+                                          ),
+                                          builder: (context, snapshot) {
+                                            var label = const Text(
+                                                'Most Favorite Hobby:');
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(7.5),
+                                                  child: Wrap(
+                                                    spacing: 7.5,
+                                                    runSpacing: 7.5,
+                                                    children: [
+                                                      label,
+                                                      Text(
+                                                          'Name: ${snapshot.data!.data()!.name}'),
+                                                      Text(
+                                                          'Description: ${snapshot.data!.data()!.description}'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              return Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(7.5),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      label,
+                                                      const SizedBox(
+                                                        width: 7.5,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 24,
+                                                        height: 24,
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Other Hobbies: ${docs[index].value.otherHobbies.length} Selected'),
+                                          ),
+                                        ),
+                                        FutureBuilder(
+                                          future:
+                                              Future<DocumentSnapshot<Hobby>?>(
+                                            () async {
+                                              if (docs[index]
+                                                      .value
+                                                      .mostFavoriteHobbyMate ==
+                                                  null) {
+                                                return null;
+                                              }
+                                              return await docs[index]
+                                                  .value
+                                                  .mostFavoriteHobbyMate!
+                                                  .get();
+                                            },
+                                          ),
+                                          builder: (context, snapshot) {
+                                            var label = const Text(
+                                                'Most Favorite Hobby Mate:');
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(7.5),
+                                                  child: Wrap(
+                                                    spacing: 7.5,
+                                                    runSpacing: 7.5,
+                                                    children: [
+                                                      label,
+                                                      if (snapshot.data != null)
+                                                        Text(
+                                                            'Name: ${snapshot.data!.data()!.name}'),
+                                                      if (snapshot.data != null)
+                                                        Text(
+                                                            'Description: ${snapshot.data!.data()!.description}'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              return Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(7.5),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      label,
+                                                      const SizedBox(
+                                                        width: 7.5,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 24,
+                                                        height: 24,
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Other Hobbies Mate: ${docs[index].value.otherHobbiesMate?.length ?? 0} Selected'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Rate: ${docs[index].value.rate ?? ''}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Rate Info: ${docs[index].value.rateInfo ?? ''}'),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     subtitle: Row(

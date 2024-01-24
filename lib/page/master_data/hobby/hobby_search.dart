@@ -181,9 +181,20 @@ class _HobbySearchState extends State<HobbySearch> {
                                       runSpacing: 7.5,
                                       spacing: 7.5,
                                       children: [
-                                        Text('Name: ${docs[index].value.name}'),
-                                        Text(
-                                            'Description: ${docs[index].value.description}'),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Name: ${docs[index].value.name}'),
+                                          ),
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(7.5),
+                                            child: Text(
+                                                'Description: ${docs[index].value.description}'),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     subtitle: Row(
