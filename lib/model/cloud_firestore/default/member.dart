@@ -7,9 +7,14 @@ class Member {
   final String email;
   final DateTime birthDate;
   final MemberGender gender;
-  final DocumentReference<Hobby> hobby;
-  final List<MemberGender> genders;
-  final List<DocumentReference<Hobby>> hobbies;
+  final MemberEthnic ethnic;
+  final List<MemberEthnic> parentalEthnicGroups;
+  final MemberEthnic? ethnicMate;
+  final List<MemberEthnic>? parentalEthnicGroupsMate;
+  final DocumentReference<Hobby> mostFavoriteHobby;
+  final List<DocumentReference<Hobby>> otherHobbies;
+  final DocumentReference<Hobby>? mostFavoriteHobbyMate;
+  final List<DocumentReference<Hobby>>? otherHobbiesMate;
   final int? rate;
   final String? rateInfo;
 
@@ -18,9 +23,14 @@ class Member {
     required this.email,
     required this.birthDate,
     required this.gender,
-    required this.hobby,
-    required this.genders,
-    required this.hobbies,
+    required this.ethnic,
+    required this.parentalEthnicGroups,
+    this.ethnicMate,
+    this.parentalEthnicGroupsMate,
+    required this.mostFavoriteHobby,
+    required this.otherHobbies,
+    this.mostFavoriteHobbyMate,
+    this.otherHobbiesMate,
     this.rate,
     this.rateInfo,
   });
@@ -36,8 +46,28 @@ class Member {
       birthDate: (data?['birthDate'] as Timestamp).toDate(),
       gender: MemberGender.values
           .firstWhere((e) => e.toString() == data?['gender']),
-      hobby: DataAdaptor.instance
-          .doc((data?['hobby'])
+      ethnic: MemberEthnic.values
+          .firstWhere((e) => e.toString() == data?['ethnic']),
+      parentalEthnicGroups: data?['parentalEthnicGroups'] is Iterable
+          ? List.from(data?['parentalEthnicGroups'])
+              .map((a) =>
+                  MemberEthnic.values.firstWhere((e) => e.toString() == a))
+              .toList()
+          : [],
+      ethnicMate: data?['ethnic'] == null
+          ? null
+          : MemberEthnic.values
+              .firstWhere((e) => e.toString() == data?['ethnic']),
+      parentalEthnicGroupsMate: data?['parentalEthnicGroups'] == null
+          ? null
+          : data?['parentalEthnicGroups'] is Iterable
+              ? List.from(data?['parentalEthnicGroups'])
+                  .map((a) =>
+                      MemberEthnic.values.firstWhere((e) => e.toString() == a))
+                  .toList()
+              : [],
+      mostFavoriteHobby: DataAdaptor.instance
+          .doc((data?['mostFavoriteHobby'])
               .toString()
               .replaceAll('DocumentReference<Map<String, dynamic>>(', '')
               .replaceAll(')', ''))
@@ -45,14 +75,8 @@ class Member {
             fromFirestore: Hobby.fromFirestore,
             toFirestore: (Hobby m, options) => m.toFirestore(),
           ),
-      genders: data?['genders'] is Iterable
-          ? List.from(data?['genders'])
-              .map((a) =>
-                  MemberGender.values.firstWhere((e) => e.toString() == a))
-              .toList()
-          : [],
-      hobbies: data?['hobbies'] is Iterable
-          ? List.from(data?['hobbies']).map((e) {
+      otherHobbies: data?['otherHobbies'] is Iterable
+          ? List.from(data?['otherHobbies']).map((e) {
               var id = e
                   .toString()
                   .replaceAll('DocumentReference<Map<String, dynamic>>(', '')
@@ -63,6 +87,32 @@ class Member {
                   );
             }).toList()
           : [],
+      mostFavoriteHobbyMate: data?['mostFavoriteHobbyMate'] == null
+          ? null
+          : DataAdaptor.instance
+              .doc((data?['mostFavoriteHobbyMate'])
+                  .toString()
+                  .replaceAll('DocumentReference<Map<String, dynamic>>(', '')
+                  .replaceAll(')', ''))
+              .withConverter(
+                fromFirestore: Hobby.fromFirestore,
+                toFirestore: (Hobby m, options) => m.toFirestore(),
+              ),
+      otherHobbiesMate: data?['otherHobbiesMate'] == null
+          ? null
+          : data?['otherHobbiesMate'] is Iterable
+              ? List.from(data?['otherHobbiesMate']).map((e) {
+                  var id = e
+                      .toString()
+                      .replaceAll(
+                          'DocumentReference<Map<String, dynamic>>(', '')
+                      .replaceAll(')', '');
+                  return DataAdaptor.instance.doc(id).withConverter(
+                        fromFirestore: Hobby.fromFirestore,
+                        toFirestore: (Hobby m, options) => m.toFirestore(),
+                      );
+                }).toList()
+              : [],
       rate: data?['rate'],
       rateInfo: data?['rateInfo'],
     );
@@ -74,9 +124,17 @@ class Member {
       'email': email,
       'birthDate': birthDate,
       'gender': gender.toString(),
-      'hobby': hobby,
-      'genders': genders.map((e) => e.toString()).toList(),
-      'hobbies': hobbies,
+      'ethnic': ethnic.toString(),
+      'parentalEthnicGroups':
+          parentalEthnicGroups.map((e) => e.toString()).toList(),
+      if (ethnicMate != null) 'ethnicMate': ethnicMate.toString(),
+      if (parentalEthnicGroupsMate != null)
+        'parentalEthnicGroupsMate':
+            parentalEthnicGroupsMate!.map((e) => e.toString()).toList(),
+      'mostFavoriteHobby': mostFavoriteHobby,
+      'otherHobbies': otherHobbies,
+      'mostFavoriteHobbyMate': mostFavoriteHobbyMate,
+      'otherHobbiesMate': otherHobbiesMate,
       if (rate != null) 'rate': rate,
       if (rateInfo != null) 'rateInfo': rateInfo,
     };
@@ -88,5 +146,16 @@ enum MemberGender {
   female('Female');
 
   const MemberGender(this.value);
+  final String value;
+}
+
+enum MemberEthnic {
+  black('Black'),
+  hispanic('Hispanic'),
+  white('White'),
+  asian('Asian'),
+  mixed('Mixed');
+
+  const MemberEthnic(this.value);
   final String value;
 }
