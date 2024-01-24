@@ -133,8 +133,9 @@ class Member {
             parentalEthnicGroupsMate!.map((e) => e.toString()).toList(),
       'mostFavoriteHobby': mostFavoriteHobby,
       'otherHobbies': otherHobbies,
-      'mostFavoriteHobbyMate': mostFavoriteHobbyMate,
-      'otherHobbiesMate': otherHobbiesMate,
+      if (mostFavoriteHobbyMate != null)
+        'mostFavoriteHobbyMate': mostFavoriteHobbyMate,
+      if (otherHobbiesMate != null) 'otherHobbiesMate': otherHobbiesMate,
       if (rate != null) 'rate': rate,
       if (rateInfo != null) 'rateInfo': rateInfo,
     };
