@@ -85,10 +85,10 @@ packages:
     dependency: "direct main"
     description:
       name: devaloop_form_builder
-      sha256: "3b17fe449f32331ec12b4495f935ce3886dd40b0ab86adcd1b7e908599e48b72"
+      sha256: "2334b3beebd8c3a7b61487f524240c22a199e63c604942b152ab7b74fe3db692"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "0.0.4"
   devaloop_login_page:
     dependency: "direct main"
     description:

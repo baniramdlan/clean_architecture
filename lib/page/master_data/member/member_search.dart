@@ -1,6 +1,7 @@
 import 'package:clean_architecture/model/cloud_firestore/default/data_adaptor.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/hobby.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/member.dart';
+import 'package:clean_architecture/page/master_data/member/member_add.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devaloop_form_builder/form_builder.dart';
 import 'package:devaloop_form_builder/input_field_text.dart';
@@ -55,17 +56,17 @@ class _MemberSearchState extends State<MemberSearch> {
                 ),
                 TextButton.icon(
                   onPressed: () async {
-                    //TODO Member Add
-                    /*var result = await Navigator.push(
+                    var result = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HobbyAdd()),
+                      MaterialPageRoute(
+                          builder: (context) => const MemberAdd()),
                     );
                     if (!mounted) return;
                     if (result != null) {
                       setState(() {
                         setSearchResultInitial();
                       });
-                    }*/
+                    }
                   },
                   icon: const Icon(Icons.add),
                   label: const Text('Add'),

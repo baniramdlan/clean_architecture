@@ -13,42 +13,44 @@ class HobbyAdd extends StatelessWidget {
         title: const Text('Add Hobby'),
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(7.5),
-        child: FormBulder(
-          inputFields: const [
-            InputText(
-              name: 'name',
-              label: 'Name',
-            ),
-            InputText(
-              name: 'description',
-              label: 'Description',
-            ),
-          ],
-          onSubmit: (context, inputValues) async {
-            await DataAdaptor.hobby().add(Hobby(
-              name: inputValues['name']!.getString()!,
-              description: inputValues['description']!.getString()!,
-            ));
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(7.5),
+          child: FormBulder(
+            inputFields: const [
+              InputText(
+                name: 'name',
+                label: 'Name',
+              ),
+              InputText(
+                name: 'description',
+                label: 'Description',
+              ),
+            ],
+            onSubmit: (context, inputValues) async {
+              await DataAdaptor.hobby().add(Hobby(
+                name: inputValues['name']!.getString()!,
+                description: inputValues['description']!.getString()!,
+              ));
 
-            if (!context.mounted) return;
+              if (!context.mounted) return;
 
-            Navigator.of(context).pop(true);
-          },
-          submitButtonSettings: const SubmitButtonSettings(
-            label: 'Add',
-            icon: Icon(Icons.add),
+              Navigator.of(context).pop(true);
+            },
+            submitButtonSettings: const SubmitButtonSettings(
+              label: 'Add',
+              icon: Icon(Icons.add),
+            ),
+            additionalButtons: [
+              AdditionalButton(
+                label: 'Cancel',
+                icon: const Icon(Icons.cancel),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           ),
-          additionalButtons: [
-            AdditionalButton(
-              label: 'Cancel',
-              icon: const Icon(Icons.cancel),
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
         ),
       ),
     );
