@@ -1,4 +1,5 @@
 import 'package:clean_architecture/page/master_data/hobby/hobby_search.dart';
+import 'package:clean_architecture/page/master_data/member/member_search.dart';
 import 'package:flutter/material.dart';
 
 class MasterDataMenu extends StatelessWidget {
@@ -11,7 +12,12 @@ class MasterDataMenu extends StatelessWidget {
         ListTile(
           title: const Text('Member'),
           trailing: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MemberSearch()),
+              );
+            },
             icon: const Icon(Icons.navigate_next),
           ),
         ),

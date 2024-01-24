@@ -17,6 +17,7 @@ class Member {
   final List<DocumentReference<Hobby>>? otherHobbiesMate;
   final int? rate;
   final String? rateInfo;
+  final DateTime? lastUpdated;
 
   Member({
     required this.name,
@@ -33,6 +34,7 @@ class Member {
     this.otherHobbiesMate,
     this.rate,
     this.rateInfo,
+    this.lastUpdated,
   });
 
   factory Member.fromFirestore(
@@ -115,6 +117,7 @@ class Member {
               : [],
       rate: data?['rate'],
       rateInfo: data?['rateInfo'],
+      lastUpdated: (data?['lastUpdated'] as Timestamp).toDate(),
     );
   }
 
@@ -138,6 +141,7 @@ class Member {
       if (otherHobbiesMate != null) 'otherHobbiesMate': otherHobbiesMate,
       if (rate != null) 'rate': rate,
       if (rateInfo != null) 'rateInfo': rateInfo,
+      'lastUpdated': DateTime.now(),
     };
   }
 }
