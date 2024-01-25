@@ -1,4 +1,5 @@
 import 'package:clean_architecture/model/cloud_firestore/default/data_adaptor.dart';
+import 'package:clean_architecture/model/cloud_firestore/default/education.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/hobby.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/member.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -250,6 +251,27 @@ class MemberAdd extends StatelessWidget {
                 optionTotalData: Future(() async =>
                     (await DataAdaptor.hobby().count().get()).count ?? 0),
               ),
+              const InputForm(
+                name: 'educations',
+                label: 'Educations',
+                inputFields: [
+                  InputText(
+                    name: 'educationName',
+                    label: 'Education Name',
+                  ),
+                ],
+              ),
+              const InputForm(
+                name: 'educations',
+                label: 'Educations',
+                isOptional: true,
+                inputFields: [
+                  InputText(
+                    name: 'educationName',
+                    label: 'Education Name',
+                  ),
+                ],
+              ),
               const InputNumber(
                 name: 'rate',
                 label: 'Rate',
@@ -264,7 +286,7 @@ class MemberAdd extends StatelessWidget {
               ),
             ],
             onSubmit: (context, inputValues) async {
-              await DataAdaptor.member().add(Member(
+              var result = await DataAdaptor.member().add(Member(
                 name: inputValues['name']!.getString()!,
                 email: inputValues['email']!.getString()!,
                 birthDate: inputValues['birthDate']!.getDateTime()!,
@@ -312,7 +334,22 @@ class MemberAdd extends StatelessWidget {
                     .toList(),
                 rate: inputValues['rate']?.getNumber(),
                 rateInfo: inputValues['rateInfo']?.getString(),
+                educations: [],
               ));
+
+              inputValues['educations']
+                  ?.getFormValues()
+                  .forEach((element) async {
+                await DataAdaptor.education(result)
+                    .add(Education(educationName: element['educationName']));
+              });
+
+              inputValues['educations']
+                  ?.getFormValues()
+                  .forEach((element) async {
+                await DataAdaptor.education(result)
+                    .add(Education(educationName: element['educationName']));
+              });
 
               if (!context.mounted) return;
 

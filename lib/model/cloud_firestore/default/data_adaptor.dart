@@ -4,7 +4,6 @@ import 'hobby.dart';
 import 'member.dart';
 import 'education.dart';
 
-
 class DataAdaptor {
   static final instance = FirebaseFirestore.instance;
 
@@ -23,7 +22,7 @@ class DataAdaptor {
   }
 
   static CollectionReference<Education> education(
-      QueryDocumentSnapshot<Member> doc) {
+      DocumentReference<Member> doc) {
     return member().doc(doc.id).collection('Education').withConverter(
           fromFirestore: Education.fromFirestore,
           toFirestore: (Education m, options) => m.toFirestore(),
