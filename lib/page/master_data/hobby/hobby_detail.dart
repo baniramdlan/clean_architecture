@@ -65,7 +65,7 @@ class HobbyDetail extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Clean Architecture'),
+                        title: const Text('Warning'),
                         content: const SingleChildScrollView(
                           child: ListBody(
                             children: <Widget>[

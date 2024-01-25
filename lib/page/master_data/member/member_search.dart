@@ -2,6 +2,7 @@ import 'package:clean_architecture/model/cloud_firestore/default/data_adaptor.da
 import 'package:clean_architecture/model/cloud_firestore/default/hobby.dart';
 import 'package:clean_architecture/model/cloud_firestore/default/member.dart';
 import 'package:clean_architecture/page/master_data/member/member_add.dart';
+import 'package:clean_architecture/page/master_data/member/member_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devaloop_form_builder/form_builder.dart';
 import 'package:devaloop_form_builder/input_field_text.dart';
@@ -403,11 +404,10 @@ class _MemberSearchState extends State<MemberSearch> {
                                       ],
                                     ),
                                     onTap: () async {
-                                      //TODO Member Detail
-                                      /*var result = await Navigator.push(
+                                      var result = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => HobbyDetail(
+                                          builder: (context) => MemberDetail(
                                             mapDoc: docs[index],
                                           ),
                                         ),
@@ -420,7 +420,6 @@ class _MemberSearchState extends State<MemberSearch> {
                                           setSearchResultInitial();
                                         });
                                       }
-                                      */
                                     },
                                   );
                                 },

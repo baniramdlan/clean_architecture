@@ -251,24 +251,58 @@ class MemberAdd extends StatelessWidget {
                 optionTotalData: Future(() async =>
                     (await DataAdaptor.hobby().count().get()).count ?? 0),
               ),
-              const InputForm(
+              InputForm(
                 name: 'educations',
                 label: 'Educations',
                 inputFields: [
-                  InputText(
-                    name: 'educationName',
-                    label: 'Education Name',
+                  const InputText(
+                    name: 'institutionName',
+                    label: 'Institution Name',
+                  ),
+                  InputOption(
+                    name: 'educationDegree',
+                    label: 'Education Degree',
+                    optionData: Future(
+                      () {
+                        var displayedListOfOptions = EducationDegree.values
+                            .map((e) =>
+                                OptionItem(hiddenValue: [e], value: [e.value]))
+                            .toList();
+                        return OptionData(
+                            displayedListOfOptions: displayedListOfOptions,
+                            totalOption: EducationDegree.values.length);
+                      },
+                    ),
+                    optionTotalData:
+                        Future(() => EducationDegree.values.length),
                   ),
                 ],
               ),
-              const InputForm(
-                name: 'educations',
-                label: 'Educations',
+              InputForm(
+                name: 'educationsMate',
+                label: 'Educations Mate',
                 isOptional: true,
                 inputFields: [
-                  InputText(
-                    name: 'educationName',
-                    label: 'Education Name',
+                  const InputText(
+                    name: 'institutionName',
+                    label: 'Institution Name',
+                  ),
+                  InputOption(
+                    name: 'educationDegree',
+                    label: 'Education Degree',
+                    optionData: Future(
+                      () {
+                        var displayedListOfOptions = EducationDegree.values
+                            .map((e) =>
+                                OptionItem(hiddenValue: [e], value: [e.value]))
+                            .toList();
+                        return OptionData(
+                            displayedListOfOptions: displayedListOfOptions,
+                            totalOption: EducationDegree.values.length);
+                      },
+                    ),
+                    optionTotalData:
+                        Future(() => EducationDegree.values.length),
                   ),
                 ],
               ),
@@ -340,15 +374,26 @@ class MemberAdd extends StatelessWidget {
               inputValues['educations']
                   ?.getFormValues()
                   .forEach((element) async {
-                await DataAdaptor.education(result)
-                    .add(Education(educationName: element['educationName']));
+                await DataAdaptor.education(result).add(Education(
+                  institutionName: element['institutionName'],
+                  educationDegree:
+                      (element['educationDegree'] as List<OptionItem>)
+                          .first
+                          .hiddenValue
+                          .first,
+                ));
               });
-
-              inputValues['educations']
+              inputValues['educationsMate']
                   ?.getFormValues()
                   .forEach((element) async {
-                await DataAdaptor.education(result)
-                    .add(Education(educationName: element['educationName']));
+                await DataAdaptor.education(result).add(Education(
+                  institutionName: element['institutionName'],
+                  educationDegree:
+                      (element['educationDegree'] as List<OptionItem>)
+                          .first
+                          .hiddenValue
+                          .first,
+                ));
               });
 
               if (!context.mounted) return;

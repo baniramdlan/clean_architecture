@@ -42,6 +42,12 @@ class Member {
     this.lastUpdated,
   });
 
+  Future<MapEntry<DocumentReference<Hobby>, Hobby>>
+      getMostFavoriteHobby() async {
+    var result = await mostFavoriteHobby.get();
+    return MapEntry(result.reference, result.data()!);
+  }
+
   factory Member.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
