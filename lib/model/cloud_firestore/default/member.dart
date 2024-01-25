@@ -48,6 +48,16 @@ class Member {
     return MapEntry(result.reference, result.data()!);
   }
 
+  Future<List<MapEntry<DocumentReference<Hobby>, Hobby>>>
+      getOtherHobbies() async {
+    List<MapEntry<DocumentReference<Hobby>, Hobby>> data = [];
+    for (var element in otherHobbies) {
+      var result = await element.get();
+      data.add(MapEntry(result.reference, result.data()!));
+    }
+    return data;
+  }
+
   factory Member.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
