@@ -1,3 +1,4 @@
+import 'package:clean_architecture/model/cloud_firestore/default/education.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'hobby.dart';
 import 'data_adaptor.dart';
@@ -15,7 +16,7 @@ class Member {
   final List<DocumentReference<Hobby>> otherHobbies;
   final DocumentReference<Hobby>? mostFavoriteHobbyMate;
   final List<DocumentReference<Hobby>>? otherHobbiesMate;
-  final int? rate;
+  final double? rate;
   final String? rateInfo;
   final DateTime? lastUpdated;
 

@@ -50,7 +50,7 @@ class _MemberSearchState extends State<MemberSearch> {
           children: [
             Row(
               children: [
-                const Text('Hobby'),
+                const Text('Member'),
                 const Expanded(
                   child: Text(''),
                 ),
