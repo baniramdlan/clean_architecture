@@ -241,15 +241,9 @@ class _MemberSearchState extends State<MemberSearch> {
                                           ),
                                         ),
                                         FutureBuilder(
-                                          future:
-                                              Future<DocumentSnapshot<Hobby>>(
-                                            () async {
-                                              return await docs[index]
-                                                  .value
-                                                  .mostFavoriteHobby
-                                                  .get();
-                                            },
-                                          ),
+                                          future: docs[index]
+                                              .value
+                                              .getMostFavoriteHobby(),
                                           builder: (context, snapshot) {
                                             var label = const Text(
                                                 'Most Favorite Hobby:');
@@ -265,9 +259,9 @@ class _MemberSearchState extends State<MemberSearch> {
                                                     children: [
                                                       label,
                                                       Text(
-                                                          'Name: ${snapshot.data!.data()!.name}'),
+                                                          'Name: ${snapshot.data!.value.name}'),
                                                       Text(
-                                                          'Description: ${snapshot.data!.data()!.description}'),
+                                                          'Description: ${snapshot.data!.value.description}'),
                                                     ],
                                                   ),
                                                 ),
