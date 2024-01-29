@@ -45,7 +45,7 @@ class Member {
   Future<MapEntry<DocumentReference<Hobby>, Hobby>>
       getMostFavoriteHobby() async {
     var result = await mostFavoriteHobby.get();
-    return MapEntry(result.reference, result.data()!);
+    return MapEntry(mostFavoriteHobby, result.data()!);
   }
 
   Future<List<MapEntry<DocumentReference<Hobby>, Hobby>>>
@@ -53,7 +53,25 @@ class Member {
     List<MapEntry<DocumentReference<Hobby>, Hobby>> data = [];
     for (var element in otherHobbies) {
       var result = await element.get();
-      data.add(MapEntry(result.reference, result.data()!));
+      data.add(MapEntry(element, result.data()!));
+    }
+    return data;
+  }
+
+  Future<MapEntry<DocumentReference<Hobby>, Hobby>?>?
+      getMostFavoriteHobbyMate() async {
+    if (mostFavoriteHobbyMate == null) return null;
+    var result = await mostFavoriteHobbyMate!.get();
+    return MapEntry(mostFavoriteHobby, result.data()!);
+  }
+
+  Future<List<MapEntry<DocumentReference<Hobby>, Hobby>>>?
+      getOtherHobbiesMate() async {
+    List<MapEntry<DocumentReference<Hobby>, Hobby>> data = [];
+    if (otherHobbiesMate == null) return [];
+    for (var element in otherHobbiesMate!) {
+      var result = await element.get();
+      data.add(MapEntry(element, result.data()!));
     }
     return data;
   }
