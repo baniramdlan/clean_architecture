@@ -368,7 +368,6 @@ class MemberAdd extends StatelessWidget {
                     .toList(),
                 rate: inputValues['rate']?.getNumber(),
                 rateInfo: inputValues['rateInfo']?.getString(),
-                educations: [],
               ));
 
               inputValues['educations']

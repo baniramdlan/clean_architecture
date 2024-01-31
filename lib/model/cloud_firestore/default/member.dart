@@ -16,8 +16,6 @@ class Member {
   final List<DocumentReference<Hobby>> otherHobbies;
   final DocumentReference<Hobby>? mostFavoriteHobbyMate;
   final List<DocumentReference<Hobby>>? otherHobbiesMate;
-  final List<DocumentReference<Education>> educations;
-  final List<DocumentReference<Education>>? educationsMate;
   final double? rate;
   final String? rateInfo;
   final DateTime? lastUpdated;
@@ -35,8 +33,6 @@ class Member {
     required this.otherHobbies,
     this.mostFavoriteHobbyMate,
     this.otherHobbiesMate,
-    required this.educations,
-    this.educationsMate,
     this.rate,
     this.rateInfo,
     this.lastUpdated,
@@ -151,33 +147,6 @@ class Member {
                   return DataAdaptor.instance.doc(id).withConverter(
                         fromFirestore: Hobby.fromFirestore,
                         toFirestore: (Hobby m, options) => m.toFirestore(),
-                      );
-                }).toList()
-              : [],
-      educations: data?['educations'] is Iterable
-          ? List.from(data?['educations']).map((e) {
-              var id = e
-                  .toString()
-                  .replaceAll('DocumentReference<Map<String, dynamic>>(', '')
-                  .replaceAll(')', '');
-              return DataAdaptor.instance.doc(id).withConverter(
-                    fromFirestore: Education.fromFirestore,
-                    toFirestore: (Education m, options) => m.toFirestore(),
-                  );
-            }).toList()
-          : [],
-      educationsMate: data?['educationsMate'] == null
-          ? null
-          : data?['educationsMate'] is Iterable
-              ? List.from(data?['educationsMate']).map((e) {
-                  var id = e
-                      .toString()
-                      .replaceAll(
-                          'DocumentReference<Map<String, dynamic>>(', '')
-                      .replaceAll(')', '');
-                  return DataAdaptor.instance.doc(id).withConverter(
-                        fromFirestore: Education.fromFirestore,
-                        toFirestore: (Education m, options) => m.toFirestore(),
                       );
                 }).toList()
               : [],

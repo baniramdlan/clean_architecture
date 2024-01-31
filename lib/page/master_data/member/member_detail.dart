@@ -27,7 +27,21 @@ class MemberDetail extends StatelessWidget {
       ),
       body: FutureBuilder(future: Future<List<dynamic>>(() async {
         var mostFavoriteHobby = await mapDoc.value.getMostFavoriteHobby();
-        return [mostFavoriteHobby];
+        var otherHobbies = await mapDoc.value.getOtherHobbies();
+        var mostFavoriteHobbyMate =
+            await mapDoc.value.getMostFavoriteHobbyMate();
+        var otherHobbiesMate = await mapDoc.value.getOtherHobbiesMate();
+        var educationsData = await DataAdaptor.education(mapDoc.key).get();
+        var educations = {
+          for (var v in educationsData.docs) (v).reference: (v).data()
+        };
+        return [
+          mostFavoriteHobby,
+          otherHobbies,
+          mostFavoriteHobbyMate,
+          otherHobbiesMate,
+          educations,
+        ];
       }), builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return SingleChildScrollView(
@@ -381,6 +395,59 @@ class MemberDetail extends StatelessWidget {
                     ])
                   ]);
 
+                  var otherHobbies = snapshot.data![1]
+                      as List<MapEntry<DocumentReference<Hobby>, Hobby>>;
+                  inputValues['otherHobbies']!.setListOptionValues(otherHobbies
+                      .map((e) => OptionItem(hiddenValue: [
+                            e.key
+                          ], value: [
+                            e.value.name,
+                            e.value.description,
+                          ]))
+                      .toList());
+
+                  //TODO Need nullable check
+                  /*var mostFavoriteHobbyMate = snapshot.data![2]
+                      as MapEntry<DocumentReference<Hobby>, Hobby>;
+                  inputValues['mostFavoriteHobbyMate']!.setListOptionValues([
+                    OptionItem(hiddenValue: [
+                      mostFavoriteHobbyMate.key
+                    ], value: [
+                      mostFavoriteHobbyMate.value.name,
+                      mostFavoriteHobbyMate.value.description,
+                    ])
+                  ]);
+
+                  var otherHobbiesMate = snapshot.data![3]
+                      as List<MapEntry<DocumentReference<Hobby>, Hobby>>;
+                  inputValues['otherHobbiesMate']!
+                      .setListOptionValues(otherHobbiesMate
+                          .map((e) => OptionItem(hiddenValue: [
+                                e.key
+                              ], value: [
+                                e.value.name,
+                                e.value.description,
+                              ]))
+                          .toList());*/
+
+                  var educations = snapshot.data![4]
+                      as Map<DocumentReference<Education>, Education>;
+                  inputValues['educations']!
+                      .setFormValues(educations.entries.map((e) {
+                    Map<String, dynamic> data = <String, dynamic>{
+                      'institutionName': e.value.institutionName,
+                      'educationDegree': [
+                        OptionItem(
+                          hiddenValue: [e.value.educationDegree],
+                          value: [
+                            e.value.educationDegree.value,
+                          ],
+                        )
+                      ],
+                    };
+                    return data;
+                  }).toList());
+
                   //TODO Add another field intial
                 },
                 onSubmit: (context, inputValues) async {
@@ -434,7 +501,6 @@ class MemberDetail extends StatelessWidget {
                         .toList(),
                     rate: inputValues['rate']?.getNumber(),
                     rateInfo: inputValues['rateInfo']?.getString(),
-                    educations: [],
                   ));
 
                   inputValues['educations']
