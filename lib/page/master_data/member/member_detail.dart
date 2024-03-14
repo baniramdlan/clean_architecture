@@ -31,10 +31,7 @@ class MemberDetail extends StatelessWidget {
         var mostFavoriteHobbyMate =
             await mapDoc.value.getMostFavoriteHobbyMate();
         var otherHobbiesMate = await mapDoc.value.getOtherHobbiesMate();
-        var educationsData = await DataAdaptor.education(mapDoc.key).get();
-        var educations = {
-          for (var v in educationsData.docs) (v).reference: (v).data()
-        };
+        var educations = await mapDoc.value.getEducations(mapDoc.key);
         return [
           mostFavoriteHobby,
           otherHobbies,
@@ -504,18 +501,6 @@ class MemberDetail extends StatelessWidget {
                   ));
 
                   inputValues['educations']
-                      ?.getFormValues()
-                      .forEach((element) async {
-                    await DataAdaptor.education(mapDoc.key).add(Education(
-                      institutionName: element['institutionName'],
-                      educationDegree:
-                          (element['educationDegree'] as List<OptionItem>)
-                              .first
-                              .hiddenValue
-                              .first,
-                    ));
-                  });
-                  inputValues['educationsMate']
                       ?.getFormValues()
                       .forEach((element) async {
                     await DataAdaptor.education(mapDoc.key).add(Education(

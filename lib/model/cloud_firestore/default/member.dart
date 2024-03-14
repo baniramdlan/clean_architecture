@@ -72,11 +72,38 @@ class Member {
     return data;
   }
 
+  Future<Map<DocumentReference<Education>, Education>> getEducations(
+      DocumentReference<Member> doc) async {
+    var educationsData = await DataAdaptor.education(doc).get();
+    var educations = {
+      for (var v in educationsData.docs) (v).reference: (v).data()
+    };
+    return educations;
+  }
+
+  Future<Map<DocumentReference<Education>, Education>> setEducations(
+      DocumentReference<Member> doc, List<Education> educations) async {
+    await DataAdaptor.education(doc).get().then((value) async {
+      for (var element in value.docs) {
+        await element.reference.delete();
+      }
+    });
+
+    Map<DocumentReference<Education>, Education> mapDocs = {};
+    for (var element in educations) {
+      var model = await DataAdaptor.education(doc).add(element);
+      mapDocs[model] = element;
+    }
+
+    return mapDocs;
+  }
+
   factory Member.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
+
     return Member(
       name: data?['name'],
       email: data?['email'],
